@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chá de Casa Nova</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#f6f4ef;font-family:Poppins,sans-serif;color:#35552f}
+.container{max-width:1400px;margin:auto;padding:30px}
+.title{text-align:center}
+.title h1{font-family:'Great Vibes',cursive;font-size:90px;margin:0}
+.title h2{font-size:30px;font-weight:400}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:25px;margin-top:30px}
+.card{background:#fff;border:2px solid #b8c8a9;border-radius:30px;padding:25px;box-shadow:0 5px 20px rgba(0,0,0,.08)}
+.card h3{text-align:center;font-family:'Great Vibes',cursive;font-size:55px;margin:0 0 20px}
+.item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed #d9dfcf;gap:10px}
+button{background:#6f925f;color:white;border:none;border-radius:10px;padding:8px 14px;cursor:pointer}
+button:hover{background:#58764d}
+.reserved{opacity:.6}
+.footer{text-align:center;margin-top:50px;font-family:'Great Vibes',cursive;font-size:30px}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="title">
+<h1>Chá de Casa Nova</h1>
+<h2>Bianca & Gabriel 💚</h2>
+<p>Escolha um item para presentear e reserve online</p>
+</div>
+
+<div class="grid" id="lista"></div>
+
+<div class="footer">Seu carinho nos ajuda a construir nosso novo lar ✨</div>
+</div>
+
+<script>
+const categorias = {
+"Cozinha":["Jogo de panelas","Frigideira Antiaderente","Panela de Pressão 4 litros","Panela de Pressão 7 litros","Leiteira","Kit Assadeiras","Forma de Bolo","Cuscuzeira","Chaleira","Panos de Prato","Kit Colher de Pau","Concha","Escumadeira","Pegador de Macarrão","Espátulas","Fouet","Descascador","Abridor de latas","Tesoura de Cozinha","Ralador","Funil","Tábua de Carne","Kit Peneira","Potes para Marmita","Kit Café da Manhã","Jogo Americano","Garrafa de Água","Kit Churrasco","Porta-tempero","Açucareiro","Saleiro","Armário de Cozinha"],
+"Sala":["Almofadas (3 unidades)","Almofadas (3 unidades)","Tapete (Grande)","Tapete (Grande)","Manta para Sofá","Quadros Decorativos","Sofá"],
+"Quarto":["Jogo de Cama","Jogo de Cama","Jogo de Cama","Jogo de Cama","Edredom","Edredom","Edredom","Edredom","Cobertor","Cobertor","Cobertor","Cobertor","Travesseiro","Travesseiro","Travesseiro","Travesseiro","Protetor de Colchão","Protetor de Colchão","Protetor de Colchão","Protetor de Colchão","Cortina","Kit cabides","Cesto de Roupas","Organizadores","Abajur","Aromatizador","Porta-retrato","Espelho (Corpo Todo)","Cama","Guarda Roupa"],
+"Banheiro":["Jogo de Toalhas","Jogo de Toalhas","Jogo de Toalhas","Jogo de Toalhas","Jogo de Toalhas","Conjunto Tapete de Banheiro","Lixeira","Porta-sabonete","Porta-escova","Cesto Organizador","Espelho","Escova Sanitária","Suporte para Papel Higiênico"],
+"Lavanderia":["Vassoura","Rodo","Pá","Balde","Mop","Tábua de Passar"],
+"Eletrodomésticos":["Geladeira","Fogão","Micro-ondas","Air Fryer","Liquidificador","Grill/Sanduicheira","Batedeira","Ventilador","Ferro de Passar","Cafeteira","TV","Máquina de Lavar"]
+};
+
+const lista=document.getElementById('lista');
+
+Object.entries(categorias).forEach(([categoria,itens])=>{
+const card=document.createElement('div');
+card.className='card';
+
+const title=document.createElement('h3');
+title.innerText=categoria;
+card.appendChild(title);
+
+itens.forEach((item,index)=>{
+const id=categoria+item+index;
+const reservado=localStorage.getItem(id);
+
+const div=document.createElement('div');
+div.className='item';
+
+if(reservado){div.classList.add('reserved');}
+
+const texto=document.createElement('span');
+texto.innerHTML=reservado?'<strong>'+item+'</strong><br><small>Reservado por: '+reservado+'</small>':item;
+
+const btn=document.createElement('button');
+btn.innerText=reservado?'Reservado':'Reservar';
+btn.disabled=!!reservado;
+
+btn.onclick=()=>{
+const nome=prompt('Digite seu nome:');
+if(nome){
+localStorage.setItem(id,nome);
+location.reload();
+}
+};
+
+div.appendChild(texto);
+div.appendChild(btn);
+
+card.appendChild(div);
+});
+
+lista.appendChild(card);
+});
+</script>
+</body>
+</html>
